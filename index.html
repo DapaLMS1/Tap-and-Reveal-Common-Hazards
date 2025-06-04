@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap to Reveal Interactive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 390px); /* 3 columns, each 390px wide */
+            gap: 20px; /* Space between grid items */
+            max-width: 1200px; /* Adjust as needed */
+            padding: 20px;
+        }
+
+        .reveal-item {
+            width: 390px;
+            height: 275px;
+            position: relative;
+            overflow: hidden; /* Crucial for the sliding effect */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            background-color: #fff;
+        }
+
+        .reveal-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures images cover the area without distortion */
+            display: block;
+            transition: transform 0.5s ease-in-out; /* Smooth transition for image if needed later */
+        }
+
+        .plus-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em; /* Large plus sign */
+            color: white; /* White plus sign */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none; /* Prevent text selection */
+            transition: background-color 0.3s ease;
+            z-index: 2; /* Ensure it's above the image but below the info panel */
+        }
+
+        .plus-icon:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: -100%; /* Start off-screen at the bottom */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e0f7fa; /* Light blue background for info */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: bottom 0.6s ease-out; /* Smooth sliding effect */
+            z-index: 1; /* Below the plus icon initially, then covers the image */
+            text-align: center;
+        }
+
+        .info-panel h3 {
+            margin-top: 0;
+            color: #00796b;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .info-panel ul li {
+            margin-bottom: 5px;
+        }
+
+        .reveal-item.active .info-panel {
+            bottom: 0; /* Slide up to cover the image */
+        }
+
+        .reveal-item.active .plus-icon {
+            display: none; /* Hide the plus icon when info is revealed */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="reveal-item">
+            <img src="https://via.placeholder.com/390x275?text=Physical+Hazards" alt="Physical Hazards">
+            <div class="plus-icon">+</div>
+            <div class="info-panel">
+                <h3>Physical Hazards</h3>
+                <ul>
+                    <li>Slippery floors</li>
+                    <li>Radiation exposure</li>
+                    <li>Ergonomic strain</li>
+                    <li>Loud noises</li>
+                    <li>Trip hazards</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal-item">
+            <img src="https://via.placeholder.com/390x275?text=Mechanical/Electrical+Hazards" alt="Mechanical/Electrical Hazards">
+            <div class="plus-icon">+</div>
+            <div class="info-panel">
+                <h3>Mechanical/Electrical Hazards</h3>
+                <ul>
+                    <li>Faulty equipment</li>
+                    <li>Electrical malfunctions</li>
+                    <li>Compressed gas risks</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal-item">
+            <img src="https://via.placeholder.com/390x275?text=Chemical+Hazards" alt="Chemical Hazards">
+            <div class="plus-icon">+</div>
+            <div class="info-panel">
+                <h3>Chemical Hazards</h3>
+                <ul>
+                    <li>Disinfectants and sterilizing agents</li>
+                    <li>Anesthetics</li>
+                    <li>X-ray processing solutions</li>
+                    <li>Mercury</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal-item">
+            <img src="https://via.placeholder.com/390x275?text=Biological+Hazards" alt="Biological Hazards">
+            <div class="plus-icon">+</div>
+            <div class="info-panel">
+                <h3>Biological Hazards</h3>
+                <ul>
+                    <li>Bloodborne pathogens</li>
+                    <li>Contaminated instruments</li>
+                    <li>Patient-borne infections</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="reveal-item">
+            <img src="https://via.placeholder.com/390x275?text=Psychological+Hazards" alt="Psychological Hazards">
+            <div class="plus-icon">+</div>
+            <div class="info-panel">
+                <h3>Psychological Hazards</h3>
+                <ul>
+                    <li>Patient-related stress</li>
+                    <li>Workload stress</li>
+                    <li>Risk of verbal or physical abuse</li>
+                </ul>
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealItems = document.querySelectorAll('.reveal-item');
+
+            revealItems.forEach(item => {
+                const plusIcon = item.querySelector('.plus-icon');
+
+                plusIcon.addEventListener('click', () => {
+                    // Toggle the 'active' class on the parent reveal-item
+                    item.classList.toggle('active');
+                });
+
+                // Optional: Allow clicking the revealed info panel to hide it again
+                const infoPanel = item.querySelector('.info-panel');
+                infoPanel.addEventListener('click', () => {
+                    item.classList.remove('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
