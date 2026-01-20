@@ -3,119 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tap to Reveal Interactive</title>
+    <title>Tap to Reveal Interactive - Compact</title>
     <style>
+        :root {
+            --brand-purple: #532A8C;
+            --brand-light-purple: #C3ACE8;
+            --card-width: 300px;
+            --card-height: 210px;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #f5f5f5;
+            padding: 20px;
         }
 
         .container {
             display: grid;
-            grid-template-columns: repeat(3, 390px); /* 3 columns, each 390px wide */
-            gap: 20px; /* Space between grid items */
-            max-width: 1200px; /* Adjust as needed */
-            padding: 20px;
+            /* Changed to auto-fit so it wraps on smaller screens and uses less space */
+            grid-template-columns: repeat(auto-fit, var(--card-width));
+            gap: 16px;
+            justify-content: center;
+            max-width: 1000px; /* Constrained width to keep it tidy */
+            width: 100%;
         }
 
         .reveal-item {
-            width: 390px;
-            height: 275px;
+            width: var(--card-width);
+            height: var(--card-height);
             position: relative;
-            overflow: hidden; /* Crucial for the sliding effect */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             cursor: pointer;
             background-color: #fff;
+            transition: transform 0.2s ease;
+        }
+
+        .reveal-item:hover {
+            transform: translateY(-2px);
         }
 
         .reveal-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures images cover the area without distortion */
+            object-fit: cover;
             display: block;
-            transition: transform 0.5s ease-in-out; /* Smooth transition for image if needed later */
         }
 
         .plus-icon {
             position: absolute;
-            bottom: 15px; /* Moves it 15px up from the bottom edge */
-            right: 15px;  /* Moves it 15px left from the right edge */
-            font-size: 3em; /* Makes the '+' sign text smaller */
-            color: white; /* White plus sign */
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            bottom: 12px;
+            right: 12px;
+            font-size: 1.8em; /* Reduced size */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.4);
             border-radius: 50%;
-            width: 60px;    /* Smaller circular background */
-            height: 60px;   /* Smaller circular background */
+            width: 44px; /* Reduced size */
+            height: 44px; /* Reduced size */
             display: flex;
             justify-content: center;
             align-items: center;
-            user-select: none; /* Prevent text selection */
+            user-select: none;
             transition: background-color 0.3s ease;
-            z-index: 2; /* Ensure it's above the image but below the info panel */
-        }
-
-        .plus-icon:hover {
-            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2;
         }
 
         .info-panel {
             position: absolute;
-            bottom: -100%; /* Start off-screen at the bottom */
+            bottom: -100%;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #C3ACE8; /* UPDATED to lighter purple brand color */
-            color: #333; /* Keeping text dark for contrast */
+            background-color: var(--brand-light-purple);
+            color: #222;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px; /* Reduced padding */
             box-sizing: border-box;
-            transition: bottom 0.6s ease-out; /* Smooth sliding effect */
-            z-index: 1; /* Below the plus icon initially, then covers the image */
+            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
             text-align: center;
         }
 
         .info-panel h3 {
             margin-top: 0;
-            color: #532A8C; /* You might want to use your dark purple here for headings */
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            color: var(--brand-purple);
+            font-size: 1.15em; /* Reduced font size */
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .info-panel ul {
             list-style: none;
             padding: 0;
             margin: 0;
-            font-size: 1.1em;
-            line-height: 1.6;
+            font-size: 0.9em; /* Reduced font size */
+            line-height: 1.4;
         }
 
         .info-panel ul li {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .reveal-item.active .info-panel {
-            bottom: 0; /* Slide up to cover the image */
+            bottom: 0;
         }
 
         .reveal-item.active .plus-icon {
-            display: none; /* Hide the plus icon when info is revealed */
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Physical Hazards -->
         <div class="reveal-item">
-            <img src="Physical.png" alt="Physical Hazards">
+            <img src="Physical.png" alt="Physical Hazards" onerror="this.src='https://via.placeholder.com/300x210?text=Physical+Hazards'">
             <div class="plus-icon">+</div>
             <div class="info-panel">
                 <h3>Physical Hazards</h3>
@@ -129,11 +141,12 @@
             </div>
         </div>
 
+        <!-- Mechanical/Electrical Hazards -->
         <div class="reveal-item">
-            <img src="Mechanical Electrical 2.png" alt="Mechanical/Electrical Hazards">
+            <img src="Mechanical Electrical 2.png" alt="Mechanical/Electrical Hazards" onerror="this.src='https://via.placeholder.com/300x210?text=Mechanical/Electrical'">
             <div class="plus-icon">+</div>
             <div class="info-panel">
-                <h3>Mechanical/Electrical Hazards</h3>
+                <h3>Mechanical/Electrical</h3>
                 <ul>
                     <li>Faulty equipment</li>
                     <li>Electrical malfunctions</li>
@@ -142,22 +155,24 @@
             </div>
         </div>
 
+        <!-- Chemical Hazards -->
         <div class="reveal-item">
-            <img src="Chemical.png" alt="Chemical Hazards">
+            <img src="Chemical.png" alt="Chemical Hazards" onerror="this.src='https://via.placeholder.com/300x210?text=Chemical+Hazards'">
             <div class="plus-icon">+</div>
             <div class="info-panel">
                 <h3>Chemical Hazards</h3>
                 <ul>
-                    <li>Disinfectants and sterilising agents</li>
+                    <li>Disinfectants/Sterilisers</li>
                     <li>Anesthetics</li>
-                    <li>X-ray processing solutions</li>
+                    <li>X-ray solutions</li>
                     <li>Mercury</li>
                 </ul>
             </div>
         </div>
 
+        <!-- Biological Hazards -->
         <div class="reveal-item">
-            <img src="Biological.png" alt="Biological Hazards">
+            <img src="Biological.png" alt="Biological Hazards" onerror="this.src='https://via.placeholder.com/300x210?text=Biological+Hazards'">
             <div class="plus-icon">+</div>
             <div class="info-panel">
                 <h3>Biological Hazards</h3>
@@ -169,37 +184,29 @@
             </div>
         </div>
 
+        <!-- Psychological Hazards -->
         <div class="reveal-item">
-            <img src="Psychological.png" alt="Psychological Hazards">
+            <img src="Psychological.png" alt="Psychological Hazards" onerror="this.src='https://via.placeholder.com/300x210?text=Psychological+Hazards'">
             <div class="plus-icon">+</div>
             <div class="info-panel">
                 <h3>Psychological Hazards</h3>
                 <ul>
                     <li>Patient-related stress</li>
                     <li>Workload stress</li>
-                    <li>Risk of verbal or physical abuse</li>
+                    <li>Verbal or physical abuse</li>
                 </ul>
             </div>
         </div>
-
-        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const revealItems = document.querySelectorAll('.reveal-item');
 
             revealItems.forEach(item => {
-                const plusIcon = item.querySelector('.plus-icon');
-
-                plusIcon.addEventListener('click', () => {
-                    // Toggle the 'active' class on the parent reveal-item
+                // Click anywhere on the item to toggle
+                item.addEventListener('click', () => {
                     item.classList.toggle('active');
-                });
-
-                // Optional: Allow clicking the revealed info panel to hide it again
-                const infoPanel = item.querySelector('.info-panel');
-                infoPanel.addEventListener('click', () => {
-                    item.classList.remove('active');
                 });
             });
         });
